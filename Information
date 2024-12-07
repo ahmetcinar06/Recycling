@@ -1,0 +1,39 @@
+import discord
+from discord.ext import commands
+import random
+
+# Botun komutlarını ve eventlerini yöneteceğimiz client nesnesi
+intents = discord.Intents.default()
+intents.message_content = True  # Mesaj içeriklerini okumak için izin
+bot = commands.Bot(command_prefix='!', intents=intents)
+sorun = "1. Hedef Kitle Evde ürettikleri atık miktarını azaltmak isteyen ancak nereden başlayacaklarını bilmeyen gençler"
+
+random.randint=(1,3)
+# Bot etkinleştiğinde çalışan fonksiyon
+@bot.event
+async def on_ready():
+    print(f'{bot.user} olarak giriş yaptım!')
+
+# Mesajlara yanıt verecek basit bir event
+@bot.event
+async def on_message(message):
+    # Botun kendi mesajlarına yanıt vermemesi için kontrol
+    if message.author == bot.user:
+        return
+
+    if message.content.lower() == 'Evimdeki atıkları azaltmak istiyorum, ama bir türlü azalmıyor ne yapmalıyım?' or "Evdeki çöpleri azaltmak için ne yapmalıyım?":
+        await message.channel.send('Merhaba, evindeki çöpleri azaltmak için geri dömüştürülebilenleri geri dönüşüm kutusuna atabilirsin.')
+
+    elif message.content.lower() == "Evimin yakınında geri dönüşüm kutusu yok ne yapmalıyım?":
+        await message.channel.send("Mahallenizde geri dönüşüm kutusu olmadığını belediyenize bildirebilirsiniz, veya geri dönüşüm kutusuna ulaşana kadar, geri dönüşebilir atıkları evinizde ayrı bir poşette ya da kutuda biriktirin.belirli bir miktara ulaştığınızda, toplu olarak bir geri dönüşüm noktasına götürebilirsiniz.")
+
+    # Diğer komutların da çalışabilmesi için
+    await bot.process_commands(message)
+
+# Basit bir komut ekleyelim
+@bot.command()
+async def selam(ctx):
+    await ctx.send("Selam! Nasılsınız?")
+
+# Botu çalıştırmak için token'ınızı buraya yapıştırın
+bot.run('YOUR_BOT_TOKEN')
